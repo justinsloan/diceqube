@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Quantum Random Passwords</title>
+  </head>
+  <body>
+    <h1>Your generated passwords:</h1>
+    <ul>
+      {% for password in password_list %}
+        <li>{{ password }}</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

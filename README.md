@@ -3,7 +3,7 @@ The world's most secure password generator.
 
 ## What makes these passwords perfect and safe?
 
-Every one is generated from a "`qube`" of quantum fluctuations in the [cosmic microwave background radiation][cmbr] without any discernable pattern. The maximum entropy [quantum random number generator][qbrng] we use guarantees that every `qube` is individually unique and will never be produced again. Ever.
+Every password is generated from a "`qube`" of quantum fluctuations in the [cosmic microwave background radiation][cmbr] without any discernable pattern. The maximum entropy [quantum random number generator][qbrng] we use guarantees that every `qube` is individually unique and will never be produced again. Ever.
 
 Therefore, these password strings are just for you. No one else can ever see them or get them. Each set displayed are totally, uniquely yours — forever.
 

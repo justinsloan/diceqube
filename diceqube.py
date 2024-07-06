@@ -24,19 +24,20 @@ import time
 import json
 import requests
 import configparser
-import pkg_resources
+import importlib.resources
+import os
 
 # Specify the location of the word list inside the package
-RESOURCE_NAME = __name__
-PATH = "diceware_word_list.txt"
-WORD_LIST_FILE = pkg_resources.resource_filename(RESOURCE_NAME, PATH)
+RESOURCE_NAME = __package__
+PATH = "word_list.txt"
+WORD_LIST_FILE = importlib.resources.path(RESOURCE_NAME, PATH)
 
 # Load API key from file
 # Get a free API key at https://quantumnumbers.anu.edu.au/
 config = configparser.ConfigParser()
 config.read('config.txt')
-free_api_key = config['apikey']['free'] # 100 requests/month for free
-paid_api_key = config['apikey']['paid'] # Unlimited requests/month for $0.005/request
+free_api_key = config['APIKEY']['free'] # 100 requests/month for free
+paid_api_key = config['APIKEY']['paid'] # Unlimited requests/month for $0.005/request
 
 
 # ANU QRDG server URL
@@ -52,12 +53,6 @@ with open(WORD_LIST_FILE) as f:
     for line in f.readlines():
         index, word = line.strip().split('\t')
         WORD_DICT[int(index)] = word
-
-
-def p_verbose(text):
-    """Print function for verbose mode."""
-    if VERBOSE:
-        print(text)
 
 
 def fetch_AQN(api_key=free_api_key):
@@ -98,7 +93,7 @@ def generate_diceware_phrase(data, phrase_count=5, word_count=6, char="-", pre="
             phrase_words.append(WORD_DICT[int(token)])
 
         passphrase = pre + char.join(phrase_words) + post
-        print(passphrase)
+        return passphrase
 
 
 def validate_request(phrases, words):
@@ -119,21 +114,21 @@ def main():
     # Get the time so we can calculate how long it takes
     start_time = time.time()
 
-    valid = validate_request(args.count, args.words)
+    valid = validate_request(1, 5)
 
     if not valid:
         exit()
 
-    p_verbose("Gathering quantum data...")
+    #p_verbose("Gathering quantum data...")
     qube = fetch_AQN()
 
     if qube.status_code == 200:
         content = qube.text
         load = json.loads(content)
         data = load["data"]
-        generate_diceware_phrase(data, args.count, args.words, args.char, args.pretext, args.posttext)
+        generate_diceware_phrase(data, 1, 5, "-")
     else:
         print(f"Error: {qube.status_code}, {qube.text}")
 
     # Calculate how long it took and print if Verbose mode is on
-    p_verbose(f"--- {time.time() - start_time} seconds ---")
+    #p_verbose(f"--- {time.time() - start_time} seconds ---")
